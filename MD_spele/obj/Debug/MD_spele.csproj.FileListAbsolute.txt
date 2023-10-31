@@ -1,0 +1,15 @@
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\MD_spele.exe.config
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\MD_spele.exe
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\MD_spele.pdb
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\SharpGL.dll
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\SharpGL.SceneGraph.dll
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\SharpGL.WinForms.dll
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\bin\Debug\SharpGL.WPF.dll
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.csproj.AssemblyReference.cache
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.Form1.resources
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.Properties.Resources.resources
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.csproj.GenerateResource.cache
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.csproj.CoreCompileInputs.cache
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.csproj.CopyComplete
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.exe
+C:\Users\Niklavs\source\repos\MD_spele\MD_spele\obj\Debug\MD_spele.pdb
