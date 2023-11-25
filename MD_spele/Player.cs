@@ -13,16 +13,24 @@ using System.Linq.Expressions;
 using System.Media;
 using NAudio.Wave;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Diagnostics;
 
 namespace MD_spele
 {
     internal class Player
     {
+        Random random = new Random();
+
         public float X { get; set;  }
         public float Y { get; set;  }
         public int Health { get; set; }
         public int Points { get; set; }
+        public int GameMode { get; set; }
         public float Rotation { get; set; }
+        public bool boss { get; set; }
+        public int Level { get; set; }
+
+        int enemiesSpawned = 0;
 
         public Bitmap Image { get; set; }
 
@@ -35,26 +43,46 @@ namespace MD_spele
             Rotation = 0;
             Points = 0;
             Health = health;
-            Image = new Bitmap(@"Images\player.png");
+            Image = new Bitmap(@"Images/player.png");
             X = screenCenterX;
             Y = screenCenterY;
+            boss = false;
 
         }
 
-        public Player(int health)
+        public Player(int gameMode)
         {
             Rotation = 0;
             Points = 0;
-            Health = health;
+            GameMode = gameMode;
             Image = new Bitmap(@"Images/player.png");
             X = 0;
             Y = 0;
+            boss = false;
+            Level = 1;
+            if (gameMode == 1)
+            {
+                Health = 3;
+            }
+            else if (gameMode == 2)
+            {
+                Health = 3;
+            }
+            else if (gameMode == 3)
+            {
+                Health = 1;
+            }
 
         }
 
         public void AddPoint()
         {
             Points++;
+        }
+
+        public void AddPoints(int points)
+        {
+            Points = Points + points;
         }
 
         public void Draw()
@@ -100,26 +128,108 @@ namespace MD_spele
 
             gl.PopMatrix();
         }
-        public void SpawnEnemies(int numberOfEnemies)
+        public void SpawnEnemies()
         {
-            Random random = new Random();
-
-            if (enemies.Count() < numberOfEnemies)
+            //Levels
+            if (GameMode == 1)
             {
-                // Set random positions around the player within a certain distance (adjust range as needed)
-                
-                float distance = random.Next(200, 1000); // Example distance from player
-                float angle = (float)random.NextDouble() * 2 * (float)Math.PI;
+                if(Level == 1)
+                {
+                    if (enemies.Count() < 4)
+                    {
+                        Spawn(400);
 
-                float enemyX = X + distance * (float)Math.Cos(angle);
-                float enemyY = Y + distance * (float)Math.Sin(angle);
-
-                // Create an enemy and add it to the list
-                int color = random.Next(1, 5);
-                Enemy newEnemy = new Enemy(enemyX, enemyY, 3.0f, 20, X, Y, color);
-                enemies.Add(newEnemy);
+                    }
+                }
+                if (Level > 1) 
+                {
+                    if (enemies.Count() < 5)
+                    {
+                        Spawn(400);
+                    }
+                }
                 
             }
+
+            //Endless
+            else if (GameMode == 2)
+            {
+                if (enemies.Count() < 6)
+                {
+                    Spawn(400);
+                }
+                if (enemiesSpawned % 8 == 0)
+                {
+                    SpawnBoss();
+                }
+            }
+
+            //Expert
+            else if (GameMode == 3)
+            {
+                if (enemies.Count() < 5)
+                {
+                    Spawn(400);
+                }
+                if (enemiesSpawned % 8 == 0)
+                {
+                    SpawnBoss();
+                }
+            }
+        }
+
+        public void Spawn(int minDistance)
+        {
+            // Distance from player
+            float distance = random.Next(minDistance, 1000);
+            // Angle from player (radians)
+            float angle = (float)random.NextDouble() * 2 * (float)Math.PI;
+
+            float enemyX = X + distance * (float)Math.Cos(angle);
+            float enemyY = Y + distance * (float)Math.Sin(angle);
+
+            int color = random.Next(1, 5);
+            Enemy newEnemy = new Enemy(enemyX, enemyY, 3.0f, 20, X, Y, color);
+            enemies.Add(newEnemy);
+            enemiesSpawned++;
+        }
+
+        public void SpawnBoss()
+        {
+            // Distance from player
+            float distance = random.Next(1000, 1000);
+            // Angle from player (radians)
+            float angle = (float)random.NextDouble() * 2 * (float)Math.PI;
+
+            float enemyX = X + distance * (float)Math.Cos(angle);
+            float enemyY = Y + distance * (float)Math.Sin(angle);
+
+            int color = random.Next(1, 5);
+            if(GameMode == 1)
+            {
+                if (Level == 1)
+                {
+                    Boss newBoss = new Boss(enemyX, enemyY, 2.0f, 40, X, Y, 1, 4);
+                    enemies.Add(newBoss);
+                    boss = true;
+                    enemiesSpawned++;
+                }
+                else
+                {
+                    Boss newBoss = new Boss(enemyX, enemyY, 2.0f, 40, X, Y, 1, 6);
+                    enemies.Add(newBoss);
+                    boss = true;
+                    enemiesSpawned++;
+                }
+            }
+            else
+            {
+                Boss newBoss = new Boss(enemyX, enemyY, 2.0f, 30, X, Y, 1, 3);
+                enemies.Add(newBoss);
+                enemiesSpawned++;
+            }
+            
+            
         }
 
         public void RenderEnemies(OpenGL gl)
@@ -159,17 +269,14 @@ namespace MD_spele
 
                 gl.PushMatrix();
                 
-                gl.Translate(enemy.X, enemy.Y, 0.0f); // Translate to the enemy position
-
-               
+                gl.Translate(enemy.X, enemy.Y, 0.0f);
 
                 Texture texture = new Texture();
                 texture.Create(gl, Image);
 
-                gl.Scale(0.5, 0.5, 1);
+                gl.Scale(enemy.Size/40, enemy.Size/40, 1);
                 gl.Rotate(enemy.Rotation, 0.0f, 0.0f, 1.0f);
 
-                // Draw the enemy texture
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 texture.Bind(gl);
                 gl.Begin(OpenGL.GL_QUADS);
@@ -197,7 +304,7 @@ namespace MD_spele
 
             foreach (var bullet in bullets)
             {
-                // Set color
+                
                 switch (bullet.color)
                 {
                     case 1:
@@ -220,9 +327,8 @@ namespace MD_spele
                 bullet.Update();
 
                 gl.PushMatrix();
-                gl.Translate(bullet.X, bullet.Y, 0.0f); // Translate to the bullet position
+                gl.Translate(bullet.X, bullet.Y, 0.0f);
 
-                // Draw the bullet (small circle)
                 gl.Begin(OpenGL.GL_POLYGON);
                 for (int i = 0; i < 360; i += 10)
                 {
@@ -237,6 +343,7 @@ namespace MD_spele
             }
         }
 
+        //Checks if any bullets collide with enemies
         public void CheckCollisions()
         {
             for (int i = bullets.Count - 1; i >= 0; i--)
@@ -247,24 +354,41 @@ namespace MD_spele
                     {
                         if (bullets[i].color == enemies[j].color)
                         {
-                            PlayPointSound();
-                            bullets.RemoveAt(i); 
-                            enemies.RemoveAt(j); 
-                            AddPoint();
-                            
+                            if (enemies[j] is Boss bossEnemy)
+                            {
+                                bullets.RemoveAt(i);
+                                bossEnemy.damage();
+                                if (bossEnemy.Lives == 0)
+                                {
+                                    enemies.RemoveAt(j);
+                                    PlayPointSound();
+                                    AddPoints(5);
+                                    boss = false;
+                                    Level++;
+                                }
+                            }
+                            else
+                            {
+                                PlayPointSound();
+                                bullets.RemoveAt(i);
+                                enemies.RemoveAt(j);
+                                AddPoint();
+                            }
                         }
-                        else
+
+                        else if (GameMode == 3)
                         {
                             bullets.RemoveAt(i);
                             Health = Health - 1;
+                            PlayHurtSound();
                         }
-                        
                         break;
                     }
                 }
             }
         }
 
+        //Checks if any enemies colide with player
         public void CheckPlayerCollisions()
         {
             for (int i = enemies.Count - 1; i >= 0; i--)

@@ -17,6 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Media;
 using NAudio.Wave;
 using System.Threading;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MD_spele
 {
@@ -28,25 +29,23 @@ namespace MD_spele
         float deltaY;
 
         int gameMode = 1;
+        bool modeChosen = false;
+        bool isGameRunning = false;
+        bool boss = false;
+        bool level1Displayed = false;
+        bool level2Displayed = false;
+        bool win = false;
+        bool gamePause = false;
 
         int chosenColor = 1;
 
-        bool isGameRunning = true;
-
-        int difficulty = 1;
-
         static string shootSoundFilePath = "Sounds/shoot3.wav";
-        
-        
-      
-        
-        //static Bitmap playerTexture = new Bitmap(@"C:\Users\Niklavs\source\repos\MD_spele\MD_spele\player.png");
 
         Bitmap image = new Bitmap(@"Images/heart.png");
         float width;
         float height;
 
-        Player p1 = new Player(4);
+        Player p1 = new Player(1);
 
         public Form1()
         {
@@ -54,19 +53,53 @@ namespace MD_spele
             InitializeComponent();
             height = image.Height;
             width = image.Width;
-
-
-
             playBackgroundMusic();
-
 
         }
 
 
         private void openGLControl2_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
         {
-            if (p1.Health > 0)
+            if (isGameRunning & modeChosen)
             {
+                if(gameMode == 1)
+                {
+                    if (!level1Displayed)
+                    {
+                        labelLevel.Text = "Level 1";
+                        gamePause = true;
+                        timerLevel.Enabled = true;
+                        level1Displayed = true;
+                        
+                    }
+                    else if (p1.Points == 20 & !p1.boss)
+                    {
+                        labelLevel.Text = "Boss";
+                        p1.SpawnBoss();
+                        timerLevel.Enabled = true;
+                    }
+                    else if (p1.Points >= 25 & !level2Displayed)
+                    {
+                        labelLevel.Text = "Level 2";
+                        gamePause = true;
+                        timerLevel.Enabled = true;
+                        level2Displayed = true;
+                    }
+
+                    else if (p1.Points == 45 & !p1.boss)
+                    {
+                        labelLevel.Text = "Boss";
+                        p1.SpawnBoss();
+                        timerLevel.Enabled = true;
+                    }
+                    else if (p1.Points >= 50)
+                    {
+                        win = true;
+                        isGameRunning = false;
+                    }
+
+                }
+
                 screenCenterX = openGLControl2.Width / 2.0f;
                 screenCenterY = openGLControl2.Height / 2.0f;
 
@@ -81,7 +114,10 @@ namespace MD_spele
 
                 renderHearts(gl, p1, image);
 
-                p1.SpawnEnemies(4);
+                if (!p1.boss && !gamePause)
+                {
+                    p1.SpawnEnemies();
+                }
 
                 p1.DrawPlayer(gl, screenCenterX, screenCenterY);
 
@@ -93,25 +129,39 @@ namespace MD_spele
 
                 p1.CheckPlayerCollisions();
 
-                p1.SpawnEnemies(4);
-
                 labelPoints.Text = p1.Points.ToString();
+
+                if (p1.Health <= 0)
+                {
+                    isGameRunning = false;
+                }
+            }
+            else if (!modeChosen)
+            {
+                buttonModeLevels.Visible = true;
+                buttonModeEndless.Visible = true;
+                buttonModeExpert.Visible = true;
+            }
+            else if (win)
+            {
+                labelOver.Text = "You won!";
+                labelScore.Text = "Score: " + p1.Points;
+                buttonQuit.Visible = true;
+                buttonChangeMode.Visible = true;
             }
             else
             {
-                isGameRunning = false;
                 labelOver.Text = "Game over!";
                 labelScore.Text = "Score: " + p1.Points;
                 buttonRetry.Visible = true;
                 buttonQuit.Visible = true;
+                buttonChangeMode.Visible = true;
             }
+
         }
 
         private void renderHearts(OpenGL gl, Player p1, Bitmap image)
         {
-            
-
-            
             Texture texture = new Texture();
 
             texture.Create(gl, @"Images/heart.png");
@@ -125,7 +175,7 @@ namespace MD_spele
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             gl.LoadIdentity();
 
-            // Enable texturing
+           
             gl.Enable(OpenGL.GL_TEXTURE_2D);
             texture.Bind(gl);
 
@@ -133,8 +183,6 @@ namespace MD_spele
             float y;
 
             gl.PushMatrix();
-
-            // Draw the heart icon
             
             gl.Begin(OpenGL.GL_QUADS);
 
@@ -168,40 +216,6 @@ namespace MD_spele
 
             p1.Rotation = playerRotation;
         }
-
-        private void DrawHeart(Bitmap image, float x, float y, OpenGL gl)
-        {
-            // Convert the Bitmap to a texture
-            Bitmap heart = new Bitmap(@"C:\Users\Niklavs\source\repos\MD_spele\MD_spele\heart.png");
-            Texture texture = new Texture();
-            texture.Create(gl, heart);
-
-
-            // Set up the orthographic projection for 2D rendering
-            gl.MatrixMode(OpenGL.GL_PROJECTION);
-            gl.LoadIdentity();
-            gl.Ortho(0, openGLControl2.Width, 0, openGLControl2.Height, -1, 1);
-            gl.MatrixMode(OpenGL.GL_MODELVIEW);
-            gl.LoadIdentity();
-
-            // Enable texturing
-            gl.Enable(OpenGL.GL_TEXTURE_2D);
-            texture.Bind(gl);
-
-            // Draw the heart icon
-            gl.Begin(OpenGL.GL_QUADS);
-            gl.TexCoord(0.0f, 1.0f); gl.Vertex(x, y);
-            gl.TexCoord(1.0f, 1.0f); gl.Vertex(x + image.Width/20, y);
-            gl.TexCoord(1.0f, 0.0f); gl.Vertex(x + image.Width/20, y + image.Height/20);
-            gl.TexCoord(0.0f, 0.0f); gl.Vertex(x, y + image.Height/20);
-            gl.End();
-
-            // Clean up
-            gl.Disable(OpenGL.GL_TEXTURE_2D);
-            texture.Destroy(gl);
-        }
-
-        
 
         private void openGLControl2_MouseClick(object sender, MouseEventArgs e)
         {
@@ -277,11 +291,13 @@ namespace MD_spele
         private void buttonRetry_Click(object sender, EventArgs e)
         {
             isGameRunning = true;
-            p1 = new Player(4);
+            win = false;
+            p1 = new Player(gameMode);
             labelOver.Text = "";
             labelScore.Text = "";
             buttonRetry.Visible = false;
             buttonQuit.Visible = false;
+            buttonChangeMode.Visible = false;
         }
 
         private void buttonQuit_Click(object sender, EventArgs e)
@@ -297,6 +313,80 @@ namespace MD_spele
         private void openGLControl2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonModeLevels_Click(object sender, EventArgs e)
+        {
+            gameMode = 1;
+            modeChosen = true;
+            isGameRunning = true;
+            win = false;
+            buttonModeLevels.Visible = false;
+            buttonModeEndless.Visible = false;
+            buttonModeExpert.Visible = false;
+            p1 = new Player(gameMode);
+        }
+
+        private void buttonModeEndless_Click(object sender, EventArgs e)
+        {
+            gameMode = 2;
+            modeChosen = true;
+            isGameRunning = true;
+            win = false;
+            buttonModeLevels.Visible = false;
+            buttonModeEndless.Visible = false;
+            buttonModeExpert.Visible = false;
+            p1 = new Player(gameMode);
+        }
+
+        private void buttonModeExpert_Click(object sender, EventArgs e)
+        {
+            gameMode = 3;
+            modeChosen = true;
+            isGameRunning = true;
+            win = false;
+            buttonModeLevels.Visible = false;
+            buttonModeEndless.Visible = false;
+            buttonModeExpert.Visible = false;
+            p1 = new Player(gameMode);
+        }
+
+        private void buttonChangeMode_Click(object sender, EventArgs e)
+        {
+            modeChosen = false;
+            buttonModeLevels.Visible = true;
+            buttonModeEndless.Visible = true;
+            buttonModeExpert.Visible = true;
+            buttonRetry.Visible = false;
+            buttonChangeMode.Visible = false;
+            buttonQuit.Visible = false;
+            labelOver.Text = "";
+            labelScore.Text = "";
+        }
+
+        private void timerLevel_Tick(object sender, EventArgs e)
+        {
+            labelLevel.Text = "";
+            timerLevel.Enabled = false;
+            gamePause = false;
+        }
+
+        async void DisplayLevelMessage(string message, int duration)
+        {
+            gamePause = true;
+            labelLevel.Text = message;
+
+            Timer displayTimer = new Timer();
+            displayTimer.Interval = duration;
+            displayTimer.Tick += (sender, e) =>
+            {
+                labelLevel.Text = "";
+                gamePause = false;
+                displayTimer.Stop();
+                displayTimer.Dispose(); // Cleanup the timer
+            };
+
+            displayTimer.Start();
         }
 
         private void playBackgroundMusic()
