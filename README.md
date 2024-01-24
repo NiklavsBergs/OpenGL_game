@@ -1,4 +1,4 @@
-# OpenGl game
+# OpenGL game
 A top-down zombie defence shooter game.
 
 Made with OpenGL, .NET, C#.
@@ -8,6 +8,12 @@ Made with OpenGL, .NET, C#.
 
 # Gameplay
 The player is in the middle of the screen, zombies are spawned randomly around the player. Zombies slowly move towards the player. the player has to shoot the zombies with their color bullet. If a zombie touches the player a life is lost.
+
+## Score
+You can see the score in top right of the screen.
+* Regular enemies give 1 point
+* Bosses give 5 points
+For now, the scores are not saved after the game ends.
 
 ## Controls
 * `Aim` - move the mouse, placing the pointer in the direction you want to shoot
