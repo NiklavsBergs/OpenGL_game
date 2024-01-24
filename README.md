@@ -11,8 +11,8 @@ The player is in the middle of the screen, zombies are spawned randomly around t
 
 ## Score
 You can see the score in top right of the screen.
-* Eliminating Regular enemies give 1 point
-* Eliminating Bosses give 5 points
+* Eliminating Regular enemies gives 1 point
+* Eliminating Bosses gives 5 points
   
 For now, the scores are not saved after the game ends.
 
