@@ -30,7 +30,7 @@ Similar to Endless, but the player has only one life and you lose a life if you 
 Zombie colored in a certain color - shoot it with the same color bullet to destroy it.
 
 ### Boss
-Bigger and slover zombie with multiple lives. Each of its lives can be a different color. To remove a bosses life shoot it with a bullet in the color of the boss. After it loses a life it changes its color. Bosses can hace 2 to 5 lives, depending on the mode.
+Bigger and slover zombie with multiple lives. Each of its lives can be a different color. To remove a bosses life shoot it with a bullet in the color of the boss. After it loses a life it changes its color. Bosses can have 2 to 5 lives, depending on the mode.
 
 
 
