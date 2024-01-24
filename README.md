@@ -7,7 +7,7 @@ Made with OpenGL, .NET, C#.
 </p>
 
 # Gameplay
-The player is in the middle of the screen, zombies are spawned randomly around the player. Zombies slowly move towards the player. the player has to shoot the zombies with their color bullet. If a zombie touches the player a life is lost.
+The player is in the middle of the screen, zombies are spawned randomly around the player. Zombies slowly move towards the player. The player has to shoot the zombies with a colored bullet, thats the same color as the zombie. If a zombie touches the player a life is lost.
 
 ## Score
 You can see the score in top right of the screen.
