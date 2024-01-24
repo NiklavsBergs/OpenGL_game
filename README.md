@@ -2,8 +2,8 @@
 A top-down zombie defence shooter game.
 
 Made with OpenGL, .NET, C#.
-<p align="center" width="40%">
-  <img src="/gameplay.jpg" alt="Gameplay" width="40%">
+<p align="center" width="60%">
+  <img src="/gameplay.jpg" alt="Gameplay" width="100%">
 </p>
 
 # Gameplay
