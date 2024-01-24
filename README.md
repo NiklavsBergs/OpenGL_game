@@ -2,6 +2,9 @@
 A top-down zombie defence shooter game.
 
 Made with OpenGL, .NET, C#.
+<p align="center" width="40%">
+  <img src="/gameplay.jpg" alt="Gameplay" width="40%">
+</p>
 
 # Gameplay
 The player is in the middle of the screen, zombies are spawned randomly around the player. Zombies slowly move towards the player. the player has to shoot the zombies with their color bullet. If a zombie touches the player a life is lost.
