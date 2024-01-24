@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.openGLControl2 = new SharpGL.OpenGLControl();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.labelPoints = new System.Windows.Forms.Label();
             this.buttonW = new System.Windows.Forms.Button();
             this.buttonA = new System.Windows.Forms.Button();
@@ -45,26 +45,9 @@
             this.buttonModeExpert = new System.Windows.Forms.Button();
             this.labelLevel = new System.Windows.Forms.Label();
             this.timerLevel = new System.Windows.Forms.Timer(this.components);
+            this.openGLControl2 = new SharpGL.OpenGLControl();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // openGLControl2
-            // 
-            this.openGLControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openGLControl2.DrawFPS = true;
-            this.openGLControl2.FrameRate = 35;
-            this.openGLControl2.Location = new System.Drawing.Point(0, 0);
-            this.openGLControl2.Name = "openGLControl2";
-            this.openGLControl2.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
-            this.openGLControl2.RenderContextType = SharpGL.RenderContextType.DIBSection;
-            this.openGLControl2.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-            this.openGLControl2.Size = new System.Drawing.Size(1144, 623);
-            this.openGLControl2.TabIndex = 0;
-            this.openGLControl2.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl2_OpenGLDraw);
-            this.openGLControl2.Load += new System.EventHandler(this.openGLControl2_Load);
-            this.openGLControl2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.openGLControl2_KeyPress);
-            this.openGLControl2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.openGLControl2_MouseClick);
-            this.openGLControl2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl2_MouseMove);
             // 
             // labelPoints
             // 
@@ -145,6 +128,7 @@
             // buttonRetry
             // 
             this.buttonRetry.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonRetry.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonRetry.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRetry.Location = new System.Drawing.Point(438, 226);
             this.buttonRetry.Name = "buttonRetry";
@@ -158,6 +142,7 @@
             // buttonQuit
             // 
             this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonQuit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonQuit.Location = new System.Drawing.Point(438, 368);
             this.buttonQuit.Name = "buttonQuit";
@@ -184,6 +169,7 @@
             // buttonChangeMode
             // 
             this.buttonChangeMode.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonChangeMode.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonChangeMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonChangeMode.Location = new System.Drawing.Point(438, 297);
             this.buttonChangeMode.Name = "buttonChangeMode";
@@ -197,6 +183,7 @@
             // buttonModeLevels
             // 
             this.buttonModeLevels.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonModeLevels.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonModeLevels.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonModeLevels.Location = new System.Drawing.Point(438, 34);
             this.buttonModeLevels.Name = "buttonModeLevels";
@@ -210,6 +197,7 @@
             // buttonModeEndless
             // 
             this.buttonModeEndless.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonModeEndless.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonModeEndless.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonModeEndless.Location = new System.Drawing.Point(438, 98);
             this.buttonModeEndless.Name = "buttonModeEndless";
@@ -223,6 +211,7 @@
             // buttonModeExpert
             // 
             this.buttonModeExpert.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonModeExpert.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonModeExpert.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonModeExpert.Location = new System.Drawing.Point(438, 162);
             this.buttonModeExpert.Name = "buttonModeExpert";
@@ -250,6 +239,26 @@
             this.timerLevel.Interval = 1500;
             this.timerLevel.Tick += new System.EventHandler(this.timerLevel_Tick);
             // 
+            // openGLControl2
+            // 
+            this.openGLControl2.BackColor = System.Drawing.Color.Black;
+            this.openGLControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openGLControl2.DrawFPS = true;
+            this.openGLControl2.ForeColor = System.Drawing.Color.Black;
+            this.openGLControl2.FrameRate = 35;
+            this.openGLControl2.Location = new System.Drawing.Point(0, 0);
+            this.openGLControl2.Name = "openGLControl2";
+            this.openGLControl2.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL4_4;
+            this.openGLControl2.RenderContextType = SharpGL.RenderContextType.DIBSection;
+            this.openGLControl2.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
+            this.openGLControl2.Size = new System.Drawing.Size(1144, 623);
+            this.openGLControl2.TabIndex = 0;
+            this.openGLControl2.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl2_OpenGLDraw);
+            this.openGLControl2.Load += new System.EventHandler(this.openGLControl2_Load);
+            this.openGLControl2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.openGLControl2_KeyPress);
+            this.openGLControl2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.openGLControl2_MouseClick);
+            this.openGLControl2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl2_MouseMove);
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1144, 623);
@@ -268,7 +277,9 @@
             this.Controls.Add(this.buttonW);
             this.Controls.Add(this.labelPoints);
             this.Controls.Add(this.openGLControl2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.Text = "Top-down Shooter";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl2)).EndInit();
             this.ResumeLayout(false);

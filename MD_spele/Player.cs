@@ -43,7 +43,7 @@ namespace MD_spele
             Rotation = 0;
             Points = 0;
             Health = health;
-            Image = new Bitmap(@"Images/player.png");
+            Image = new Bitmap(@"Images\player.png");
             X = screenCenterX;
             Y = screenCenterY;
             boss = false;
@@ -55,7 +55,7 @@ namespace MD_spele
             Rotation = 0;
             Points = 0;
             GameMode = gameMode;
-            Image = new Bitmap(@"Images/player.png");
+            Image = new Bitmap(@"Images\player.png");
             X = 0;
             Y = 0;
             boss = false;
@@ -101,8 +101,8 @@ namespace MD_spele
             gl.LoadIdentity();
 
             gl.PushMatrix();
-            gl.Translate(screenCenterX, screenCenterY, 0.0f); // Move to the center of the screen
-            gl.Rotate(-Rotation, 0.0f, 0.0f, 1.0f); // Rotate player according to mouse position
+            gl.Translate(screenCenterX, screenCenterY, 0.0f);
+            gl.Rotate(-Rotation, 0.0f, 0.0f, 1.0f);
 
             Texture texture = new Texture();
             texture.Create(gl, Image);
@@ -113,7 +113,6 @@ namespace MD_spele
             gl.Enable(OpenGL.GL_BLEND);
             gl.BlendFunc(OpenGL.GL_SRC_ALPHA, OpenGL.GL_ONE_MINUS_SRC_ALPHA);
 
-            // Draw the player texture
             gl.Enable(OpenGL.GL_TEXTURE_2D);
             texture.Bind(gl);
             gl.Begin(OpenGL.GL_QUADS);
@@ -196,9 +195,7 @@ namespace MD_spele
 
         public void SpawnBoss()
         {
-            // Distance from player
             float distance = random.Next(1000, 1000);
-            // Angle from player (radians)
             float angle = (float)random.NextDouble() * 2 * (float)Math.PI;
 
             float enemyX = X + distance * (float)Math.Cos(angle);
@@ -395,10 +392,18 @@ namespace MD_spele
             {
                 if (enemies[i].HasHitPlayer(this))
                 {
-                    Health = Health - 1; 
-                    enemies.RemoveAt(i);
-                    PlayHurtSound();
-
+                    if (enemies[i] is Boss)
+                    {
+                        Health = Health - 3;
+                        enemies.RemoveAt(i);
+                        PlayHurtSound();
+                    }
+                    else
+                    {
+                        Health = Health - 1;
+                        enemies.RemoveAt(i);
+                        PlayHurtSound();
+                    }
                 }
             }
         }

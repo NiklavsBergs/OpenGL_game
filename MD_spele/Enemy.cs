@@ -63,8 +63,8 @@ namespace MD_spele
 
         public bool HasHitPlayer(Player player)
         {
-            // Check if the enemy's bounding box collides with the player's bounding box
-            return (X - Size < player.X + 50 / 2 &&
+            // Check if enemy box collides with the player's bounding box
+            return (X - Size / 2 < player.X + 50 / 2 &&
                     X + Size / 2 > player.X - 50 / 2 &&
                     Y - Size / 2 < player.Y + 50 / 2 &&
                     Y + Size / 2 > player.Y - 50 / 2);
