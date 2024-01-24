@@ -16,7 +16,7 @@ The player is in the middle of the screen, zombies are spawned randomly around t
 There are 2 levels.
 Player has 3 lives (for completing both levels).
 Each level has a certain number of enemies and a Boss at the end of the level.
-In the second level more enemies spawn at the same time and the bos has one more life.
+In the second level more enemies spawn at the same time and the boss has one more life.
 
 ### Endless
 The game only ends when all the lives are lost.
