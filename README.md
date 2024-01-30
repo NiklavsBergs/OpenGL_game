@@ -42,5 +42,10 @@ Zombie colored in a certain color - shoot it with the same color bullet to destr
 ### Boss
 Bigger and slover zombie with multiple lives. Each of its lives can be a different color. To remove a bosses life shoot it with a bullet in the color of the boss. After it loses a life it changes its color. Bosses can have 2 to 5 lives, depending on the mode.
 
+# Run game
+To run the game download the `OpenGL_game.zip` from Releases.
+* Extract the .zip.
+* Open the `OpenGL_game.exe` file.
+
 
 
